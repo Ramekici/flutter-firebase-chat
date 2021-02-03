@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "166134072726",
+    "project_id": "flutter-chat-ekici",
+    "storage_bucket": "flutter-chat-ekici.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166134072726:android:dec67aa0e6cb9f3b3909b7",
+        "android_client_info": {
+          "package_name": "com.ekicicompany.flutter_app_chat_ekici"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166134072726-ckuhn6nb1us4rqc30t64m26aqlo581ff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANwetd-V4_MKCgUfLy19Aue09vqu8PT-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166134072726-ckuhn6nb1us4rqc30t64m26aqlo581ff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
