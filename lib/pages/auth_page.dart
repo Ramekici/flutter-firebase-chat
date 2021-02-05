@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/auth_form.dart';
@@ -14,8 +17,8 @@ class _AuthPageState extends State<AuthPage> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
 
-  void _submitForm(String email, String password, String username, bool isLogin, BuildContext ctx) async {
-    
+  void _submitForm(String email, String password, String username, File userImage, bool isLogin, BuildContext ctx) 
+  async {
     UserCredential authResult;
     try {
       setState(() {
@@ -28,9 +31,15 @@ class _AuthPageState extends State<AuthPage> {
         authResult = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
       }
+
+      final ref = FirebaseStorage.instance.ref().child('users_image').child(authResult.user.uid + '.jpg');
+      await ref.putFile(userImage);
+      final url = ref.getDownloadURL();
+
       await FirebaseFirestore.instance.collection('users').doc(authResult.user.uid).set({
         'username': username,
-        'email': email
+        'email': email,
+        'image_url': url
       });
     } on PlatformException catch (err) {
       var message = 'Hata meydana geldi, bilgilerini kontrol et.';

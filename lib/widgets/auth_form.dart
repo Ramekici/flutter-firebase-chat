@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app_chat_ekici/pickers/user_image_picker.dart';
 
 class AuthForm extends StatefulWidget {
-  final void Function(String email, String password, String username,
+  final void Function(String email, String password, String username, File userImage,
       bool ilsLogin, BuildContext ctx) _submitFn;
   final bool _isLoader;
 
@@ -18,17 +21,27 @@ class _AuthFormState extends State<AuthForm> {
   var _userEmail = '';
   var _userName = '';
   var _password = '';
+  File _userImageFile;
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    print(isValid);
     FocusScope.of(context).unfocus();
-    print(_userEmail);
+    if(_userImageFile == null && !_isLogin){
+      Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text('Lütfen resim seçin'),
+        backgroundColor: Theme.of(context).errorColor,)
+      );
+      return;
+    }
     if (isValid) {
       _formKey.currentState.save();
-      widget._submitFn(_userEmail.trim(), _password.trim(), _userName.trim(),
+      widget._submitFn(_userEmail.trim(), _password.trim(), _userName.trim(), _userImageFile,
           _isLogin, context);
     }
+  }
+
+  void saveImage(File image){
+    _userImageFile = image;
   }
 
   @override
@@ -44,11 +57,13 @@ class _AuthFormState extends State<AuthForm> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                if(!_isLogin)
+                UserImagePicker(saveImage),
                 TextFormField(
                   key: ValueKey('email'),
                   validator: (value) {
                     if (value.isEmpty || !value.contains('@')) {
-                      return '.......';
+                      return 'Email Hatalı Giriş';
                     }
                     return null;
                   },
